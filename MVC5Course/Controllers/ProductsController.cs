@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MVC5Course.Models;
+using MVC5Course.Models.ViewModels;
 
 namespace MVC5Course.Controllers
 {
@@ -23,7 +24,6 @@ namespace MVC5Course.Controllers
             {
                 data = data.Where(x => x.Active.Value == Active && x.Active.HasValue);
             }
-            
             return View(data);
             //return View(db.Product.OrderByDescending(x => x.ProductId).Take(10).ToList());
         }
@@ -131,6 +131,20 @@ namespace MVC5Course.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+        public ActionResult ProductsList()
+        {
+            var data = db.Product
+                         .Where(p => p.Active == true)
+                         .Select(p => new ProductList()
+                         {
+                             ProductId = p.ProductId,
+                             ProductName = p.ProductName,
+                             Price = p.Price,
+                             Stock = p.Stock
+                         })
+                         .Take(10);
+            return View(data);
         }
     }
 }
