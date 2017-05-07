@@ -63,7 +63,7 @@ namespace MVC5Course.Controllers
         {
             return View(db.Product.Find(id));
         }
-        [HttpPost]
+        [HttpPost,ActionName("Delete")]
         public ActionResult DeleteOK(int id)
         {
             ////FK先刪 導覽屬性OrderLine
