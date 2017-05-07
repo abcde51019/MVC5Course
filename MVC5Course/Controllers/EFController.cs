@@ -14,7 +14,7 @@ namespace MVC5Course.Controllers
         public ActionResult Index()
         {
             var data = db.Product.AsQueryable()
-                                 .Where(a => a.Active == true)
+                                 .Where(a => a.Active == true && a.Is刪除 == false)
                                  .Take(20)
                                  .OrderByDescending(p => p.ProductId);
             return View(data);
@@ -61,11 +61,19 @@ namespace MVC5Course.Controllers
         }
         public ActionResult Delete(int id)
         {
-            //FK先刪 導覽屬性OrderLine
-            db.OrderLine.RemoveRange(db.Product.Find(id).OrderLine);
-            db.Product.Remove(db.Product.Find(id));
+            return View(db.Product.Find(id));
+        }
+        [HttpPost]
+        public ActionResult DeleteOK(int id)
+        {
+            ////FK先刪 導覽屬性OrderLine
+            //db.OrderLine.RemoveRange(db.Product.Find(id).OrderLine);
+            //db.Product.Remove(db.Product.Find(id));
+            var item = db.Product.Find(id);
+            item.Is刪除 = true;
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+
     }
 }

@@ -15,14 +15,18 @@ namespace MVC5Course.Models
             get
             {
                 return this.OrderLine.Count;
+                //總計 效能比較
+                //return this.OrderLine.Where(x => x.Qty > 400).Count(); //差
+                //return this.OrderLine.Where(x => x.Qty > 400).ToList().Count; //差
+                //return this.OrderLine.Count(x => x.Qty > 400); //最好
             }
         }
     }
     public partial class ProductData
     {
         [Required(ErrorMessage = "請輸入商品名稱")]
-        [MinLength(3, ErrorMessage = "最少輸入3字元"), MaxLength(20, ErrorMessage = "最多不超過20字元")]
-        [RegularExpression("(.+)-(.+)", ErrorMessage = "名稱內需有-符號")]
+        [MinLength(3, ErrorMessage = "最少輸入3字元"), MaxLength(80, ErrorMessage = "最多不超過80字元")]
+        //[RegularExpression("(.+)-(.+)", ErrorMessage = "名稱內需有-符號")]
         [DisplayName("商品名稱")]
         public string ProductName { get; set; }
 
