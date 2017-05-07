@@ -10,6 +10,13 @@ namespace MVC5Course.Models
     [MetadataType(typeof(ProductData))]
     public partial class Product
     {
+        public int 訂單數量
+        {
+            get
+            {
+                return this.OrderLine.Count;
+            }
+        }
     }
     public partial class ProductData
     {
@@ -21,7 +28,7 @@ namespace MVC5Course.Models
 
         [Required]
         [Range(1, 9999, ErrorMessage = "請輸入正確的商品價格1~9999")]
-        [DisplayFormat(DataFormatString ="{0:0}", ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:0}", ApplyFormatInEditMode = true)]
         [DisplayName("商品價格")]
         public Nullable<decimal> Price { get; set; }
 
@@ -31,7 +38,7 @@ namespace MVC5Course.Models
 
         [Required]
         [Range(0, 9999, ErrorMessage = "請輸入正確的庫存數量0~9999")]
-        [DisplayFormat(DataFormatString = "{0:0}",ApplyFormatInEditMode = true)]
+        [DisplayFormat(DataFormatString = "{0:0}", ApplyFormatInEditMode = true)]
         [DisplayName("商品庫存")]
         public Nullable<decimal> Stock { get; set; }
     }
