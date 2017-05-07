@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MVC5Course.Models.ValidateAttribute;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -8,7 +9,7 @@ using System.Web;
 namespace MVC5Course.Models
 {
     [MetadataType(typeof(ProductData))]
-    public partial class Product
+    public partial class Product : IValidatableObject
     {
         public int 訂單數量
         {
@@ -21,13 +22,29 @@ namespace MVC5Course.Models
                 //return this.OrderLine.Count(x => x.Qty > 400); //最好
             }
         }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (Stock > 10 && Price > 200)
+            {
+                yield return new ValidationResult("庫存>10價格>200錯囉~~", 
+                                                   new string[] { "Stock", "Price" });
+            }
+            if (Stock > 0 && Active == false)
+            {
+                yield return new ValidationResult("給我上架喔", new[] { "Active" });
+            }
+            yield break;
+            //throw new NotImplementedException();
+        }
     }
     public partial class ProductData
     {
         [Required(ErrorMessage = "請輸入商品名稱")]
-        [MinLength(3, ErrorMessage = "最少輸入3字元"), MaxLength(80, ErrorMessage = "最多不超過80字元")]
+        //[MaxWords(10)]
         //[RegularExpression("(.+)-(.+)", ErrorMessage = "名稱內需有-符號")]
         [DisplayName("商品名稱")]
+        [商品名稱需包含LIN字元]
         public string ProductName { get; set; }
 
         [Required]
