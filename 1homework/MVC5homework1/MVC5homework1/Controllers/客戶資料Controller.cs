@@ -1,6 +1,7 @@
 ﻿using MVC5homework1.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -13,7 +14,7 @@ namespace MVC5homework1.Controllers
         // GET: 客戶資料
         public ActionResult Index(string search)
         {
-            var data = db.客戶資料.Take(50);
+            var data = db.客戶資料.Take(50).Where(x => x.是否已刪除 == false);
             
             if (!string.IsNullOrEmpty(search))
             {
@@ -65,8 +66,25 @@ namespace MVC5homework1.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.客戶資料.Remove(db.客戶資料.Find(id));
-                db.SaveChanges();           
+                try
+                {
+                    var item = db.客戶資料.Find(id);
+                    item.是否已刪除 = true;
+
+                    var d = db.客戶聯絡人.Where(x => x.客戶Id == id).FirstOrDefault();
+                    d.是否已刪除 = true;
+
+                    var b = db.客戶銀行資訊.Where(x => x.客戶Id == id).FirstOrDefault();
+                    b.是否已刪除 = true;
+
+                    db.SaveChanges();
+                }
+                catch (DbEntityValidationException ex )
+                {
+
+                    throw ex;
+                }
+    
             }
             return RedirectToAction("Index");
         }

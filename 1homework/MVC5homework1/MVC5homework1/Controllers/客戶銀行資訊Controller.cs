@@ -1,23 +1,23 @@
-﻿using System;
+﻿using MVC5homework1.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using MVC5homework1.Models;
-using System.Net;
 
 namespace MVC5homework1.Controllers
 {
-    public class 客戶聯絡人Controller : Controller
+    public class 客戶銀行資訊Controller : Controller
     {
         CustomerEntities db = new CustomerEntities();
-        // GET: 客戶聯絡人
+        // GET: 客戶銀行資訊
         public ActionResult Index(string search)
         {
-            var data = db.客戶聯絡人.Take(50).Where(x => x.是否已刪除 == false); ;
+            var data = db.客戶銀行資訊.Take(50).Where(x => x.是否已刪除 == false); ;
             if (!string.IsNullOrEmpty(search))
             {
-                data = data.Where(x => x.姓名.Contains(search));
+                data = data.Where(x => x.帳戶名稱.Contains(search));
             }
 
             return View(data);
@@ -27,7 +27,7 @@ namespace MVC5homework1.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult Create(int? 客戶id ,客戶聯絡人 customer)
+        public ActionResult Create(int? 客戶id, 客戶銀行資訊 customer)
         {
             if (客戶id == null)
             {
@@ -35,7 +35,7 @@ namespace MVC5homework1.Controllers
             }
             if (ModelState.IsValid)
             {
-                db.客戶聯絡人.Add(customer);
+                db.客戶銀行資訊.Add(customer);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -44,10 +44,10 @@ namespace MVC5homework1.Controllers
 
         public ActionResult Edit(int id)
         {
-            return View(db.客戶聯絡人.Find(id));
+            return View(db.客戶銀行資訊.Find(id));
         }
         [HttpPost]
-        public ActionResult Edit(int? id , int 客戶id,客戶聯絡人 customer)
+        public ActionResult Edit(int? id, int 客戶id, 客戶銀行資訊 customer)
         {
             if (id == null)
             {
@@ -55,12 +55,12 @@ namespace MVC5homework1.Controllers
             }
             if (ModelState.IsValid)
             {
-                var item = db.客戶聯絡人.Find(id);
-                item.姓名 = customer.姓名;
-                item.手機 = customer.手機;
-                item.電話 = customer.電話;
-                item.職稱 = customer.職稱;
-                item.Email = customer.Email;
+                var item = db.客戶銀行資訊.Find(id);
+                item.分行代碼 = customer.分行代碼;
+                item.銀行代碼 = customer.銀行代碼;
+                item.銀行名稱 = customer.銀行名稱;
+                item.帳戶號碼 = customer.帳戶號碼;
+                item.帳戶名稱 = customer.帳戶名稱;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -68,13 +68,13 @@ namespace MVC5homework1.Controllers
         }
         public ActionResult Details(int id)
         {
-            return View(db.客戶聯絡人.Find(id));
+            return View(db.客戶銀行資訊.Find(id));
         }
         public ActionResult Delete(int id)
         {
             if (ModelState.IsValid)
             {
-                var item = db.客戶聯絡人.Find(id);
+                var item = db.客戶銀行資訊.Find(id);
                 item.是否已刪除 = true;
                 db.SaveChanges();
                 return RedirectToAction("Index");

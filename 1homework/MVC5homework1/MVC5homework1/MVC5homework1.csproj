@@ -163,11 +163,14 @@
     <Content Include="scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="scripts\modernizr-2.6.2.js" />
     <Content Include="Web.config" />
+    <Content Include="Views\客戶聯絡人\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\客戶清單Controller.cs" />
     <Compile Include="Controllers\客戶聯絡人Controller.cs" />
     <Compile Include="Controllers\客戶資料Controller.cs" />
+    <Compile Include="Controllers\客戶銀行資訊Controller.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -188,6 +191,10 @@
     </Compile>
     <Compile Include="Models\CustomerPartial.cs" />
     <Compile Include="Models\sysdiagrams.cs">
+      <DependentUpon>Customer.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\ValidateAttribute\手機格式Attribute.cs" />
+    <Compile Include="Models\客戶清單.cs">
       <DependentUpon>Customer.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\客戶聯絡人.cs">
@@ -222,6 +229,14 @@
     <Content Include="Views\客戶資料\Edit.cshtml" />
     <Content Include="Views\客戶資料\Index.cshtml" />
     <Content Include="scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\客戶聯絡人\Create.cshtml" />
+    <Content Include="Views\客戶聯絡人\Edit.cshtml" />
+    <Content Include="Views\客戶聯絡人\Details.cshtml" />
+    <Content Include="Views\客戶銀行資訊\Index.cshtml" />
+    <Content Include="Views\客戶銀行資訊\Create.cshtml" />
+    <Content Include="Views\客戶銀行資訊\Edit.cshtml" />
+    <Content Include="Views\客戶銀行資訊\Details.cshtml" />
+    <Content Include="Views\客戶清單\Index.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -229,9 +244,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\客戶聯絡人\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
