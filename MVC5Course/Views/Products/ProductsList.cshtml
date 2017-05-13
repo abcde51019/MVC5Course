@@ -5,7 +5,17 @@
 }
 
 <h2>ProductsList</h2>
-
+@if (TempData["alertResult"] != null)
+{
+    <h2>
+        @TempData["alertResult"]
+    </h2>
+}
+<form method="get">
+    搜尋: @Html.TextBox("Search")
+    <button>搜尋</button>
+    庫存:@Html.TextBox("StockS")~@Html.TextBox("StockE")
+</form>
 <p>
     @Html.ActionLink("Create New", "Create")
 </p>
