@@ -1,0 +1,21 @@
+﻿@{
+    Layout = "";
+
+}
+
+@DateTime.Now
+
+@(1+2+3)
+
+@if (ViewBag.IsEnabled != null && ViewBag.IsEnabled)
+{
+    @:啟用
+    <text>文字區塊HTML上不會有TAG的輸出</text>
+    <p>文字區塊會有TAG輸出</p>
+}
+else
+{
+    @:停用文字
+    <p>文字區塊會有TAG輸出</p>
+    <text>文字區塊HTML上不會有TAG的輸出</text>
+}

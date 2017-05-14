@@ -8,10 +8,12 @@ using System.Web;
 using System.Web.Mvc;
 using MVC5Course.Models;
 using MVC5Course.Models.ViewModels;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
 
 namespace MVC5Course.Controllers
 {
-    public class ProductsController : Controller
+    public class ProductsController : BaseController
     {
        // private FabricsEntities db = new FabricsEntities();
         ProductRepository repo = RepositoryHelper.GetProductRepository();
@@ -59,16 +61,20 @@ namespace MVC5Course.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
+        
+        //自己定義系統例外訊息
+       // [HandleError(ExceptionType = typeof(DbUpdateException), View = "Error_DbUpdateException")]
+       
         public ActionResult Create([Bind(Include = "ProductId,ProductName,Price,Active,Stock")] Product product)
         {
-            if (ModelState.IsValid)
-            {
+            //if (ModelState.IsValid)
+           // {
                 repo.Add(product);
                 repo.UnitOfWork.Commit();
                 //db.Product.Add(product);
                 //db.SaveChanges();
                 return RedirectToAction("Index");
-            }
+            //}
 
             return View(product);
         }

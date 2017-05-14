@@ -56,5 +56,14 @@ namespace MVC5Course.Controllers
             db.Configuration.LazyLoadingEnabled = false;
             return Json(db.Product.Take(5),JsonRequestBehavior.AllowGet);
         }
+        public ActionResult ViewEmty()
+        {
+            return View();
+        }
+        public ActionResult RazerTest()
+        {
+            ViewData.Model = new int[] { 1, 2, 3, 4, 5 };
+            return View();
+        }
     }
 }
