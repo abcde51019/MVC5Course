@@ -12,9 +12,13 @@
     </h2>
 }
 <form method="get">
+   
     搜尋: @Html.TextBox("Search")
+   
+    庫存:@Html.TextBox("StockS", null, new { size = "10", type = "number"})~
+       
+         @Html.TextBox("StockE", null, new { size = "10", type = "number" })
     <button>搜尋</button>
-    庫存:@Html.TextBox("StockS")~@Html.TextBox("StockE")
 </form>
 <p>
     @Html.ActionLink("Create New", "Create")

@@ -94,9 +94,14 @@ namespace MVC5Course.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ProductId,ProductName,Price,Active,Stock")] Product product)
+        public ActionResult Edit(int id , FormCollection form)
         {
-            if (ModelState.IsValid)
+            //[Bind(Include = "ProductId,ProductName,Price,Active,Stock")] Product product
+
+            var product = repo.Get單筆資料ByProductId(id);
+
+            //if (ModelState.IsValid)
+            if (TryUpdateModel<Product>(product))
             {
                 repo.UnitOfWork.Context.Entry(product).State = EntityState.Modified;
                 repo.UnitOfWork.Commit();
@@ -142,23 +147,25 @@ namespace MVC5Course.Controllers
             }
             base.Dispose(disposing);
         }
-        public ActionResult ProductsList(string Search,int StockS =0, int StockE=9999)
+        public ActionResult ProductsList(ProductListSearch Condition)
         {
             var data = repo.Get全部資料(true, Active: true);
-
-            if (!string.IsNullOrEmpty(Search))
+            if (ModelState.IsValid)
             {
-                data = data.Where(x => x.ProductName.Contains(Search));
+                if (!string.IsNullOrEmpty(Condition.Search))
+                {
+                    data = data.Where(x => x.ProductName.Contains(Condition.Search));
+                }
+                data = data.Where(x => x.Stock >= Condition.StockS && 
+                                       x.Stock <= Condition.StockE);
             }
-            data = data.Where(x => x.Stock >= StockS && x.Stock <= StockE);
             ViewData.Model = data.Select(p => new ProductList()
-                         {
-                             ProductId = p.ProductId,
-                             ProductName = p.ProductName,
-                             Price = p.Price,
-                             Stock = p.Stock
-                         })
-                         .Take(10);
+            {
+                ProductId = p.ProductId,
+                ProductName = p.ProductName,
+                Price = p.Price,
+                Stock = p.Stock
+            }).Take(30);
             return View();
             //return View();
         }

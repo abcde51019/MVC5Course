@@ -12,9 +12,11 @@ namespace MVC5Course.Controllers
         {
             return View();
         }
+        [SharedViewBagAttribute]
+        [LocalOnly]
         public ActionResult PartialAbout()
         {
-            ViewBag.Message = "123123123123lkdsjf;lasjflsadjlfkj";
+           // ViewBag.Message = "123123123123lkdsjf;lasjflsadjlfkj";
             if (Request.IsAjaxRequest())
             {
                 return PartialView("About");
