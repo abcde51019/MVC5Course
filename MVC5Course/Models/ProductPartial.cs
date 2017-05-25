@@ -62,5 +62,9 @@ namespace MVC5Course.Models
         [DisplayFormat(DataFormatString = "{0:0}", ApplyFormatInEditMode = true)]
         [DisplayName("商品庫存")]
         public Nullable<decimal> Stock { get; set; }
+        //[DataType(DataType.Date)]
+        //[DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}",ApplyFormatInEditMode =true)]
+        public DateTime CreatDate { get; set; }
+
     }
 }

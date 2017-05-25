@@ -11,11 +11,12 @@ namespace MVC5homework1.Controllers
     public class 客戶資料Controller : Controller
     {
         CustomerEntities db = new CustomerEntities();
+        客戶資料Repository repo = RepositoryHelper.Get客戶資料Repository();
         // GET: 客戶資料
         public ActionResult Index(string search)
         {
-            var data = db.客戶資料.Take(50).Where(x => x.是否已刪除 == false);
-            
+            //var data = db.客戶資料.Take(50).Where(x => x.是否已刪除 == false);
+            var data = repo.Get全部資料(false).Take(50);
             if (!string.IsNullOrEmpty(search))
             {
                 data = data.Where(x => x.客戶名稱.Contains(search));
@@ -32,14 +33,17 @@ namespace MVC5homework1.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.客戶資料.Add(customer);
-                db.SaveChanges();
+                repo.Add(customer);
+                repo.UnitOfWork.Commit();
+                //db.客戶資料.Add(customer);
+                //db.SaveChanges();
             }
             return RedirectToAction("Index");
         }
         public ActionResult Edit(int id)
         {
-            return View(db.客戶資料.Find(id));
+            //db.客戶資料.Find(id)
+            return View(repo.Get單筆資料ById(id));
         }
         [HttpPost]
         public ActionResult Edit(int id , 客戶資料 customer )
